@@ -11,21 +11,21 @@ interface SectionHeadingProps {
 export function SectionHeading({
   title,
   subtitle,
-  align = "center",
+  align = "left",
 }: SectionHeadingProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       viewport={{ once: true }}
-      className={`mb-12 ${align === "center" ? "text-center" : "text-left"}`}
+      className={`mb-8 ${align === "center" ? "text-center" : "text-left"}`}
     >
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-        <span className="gradient-text">{title}</span>
+      <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+        {title}
       </h2>
       {subtitle && (
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+        <p className="text-muted-foreground mt-2">
           {subtitle}
         </p>
       )}

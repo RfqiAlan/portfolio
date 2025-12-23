@@ -4,8 +4,7 @@ import { motion } from "framer-motion";
 import { Code2, Palette, Zap, Users } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TiltCard } from "@/components/shared/TiltCard";
-import { ProgressBar } from "@/components/shared/ProgressBar";
-import { skills, personalInfo } from "@/data/skills";
+import { personalInfo } from "@/data/skills";
 
 const highlights = [
   {
@@ -31,9 +30,6 @@ const highlights = [
 ];
 
 export function About() {
-  const frontendSkills = skills.filter((s) => s.category === "frontend");
-  const backendSkills = skills.filter((s) => s.category === "backend");
-
   return (
     <section id="about" className="py-20 md:py-32 relative">
       <div className="container mx-auto px-4">
@@ -42,7 +38,7 @@ export function About() {
           subtitle="Here's a little about my background and what I do"
         />
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left column - Photo and bio */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -82,55 +78,25 @@ export function About() {
             </div>
           </motion.div>
 
-          {/* Right column - Skills */}
-          <div className="space-y-8">
-            {/* Highlight cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {highlights.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <TiltCard className="h-full text-center">
-                    <item.icon className="w-8 h-8 mx-auto mb-3 text-primary" />
-                    <h3 className="font-semibold mb-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Skills progress bars */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold">Frontend</h3>
-              <div className="space-y-4">
-                {frontendSkills.slice(0, 4).map((skill, index) => (
-                  <ProgressBar
-                    key={skill.name}
-                    label={skill.name}
-                    percentage={skill.level}
-                    delay={index * 0.1}
-                  />
-                ))}
-              </div>
-
-              <h3 className="text-xl font-semibold pt-4">Backend</h3>
-              <div className="space-y-4">
-                {backendSkills.slice(0, 4).map((skill, index) => (
-                  <ProgressBar
-                    key={skill.name}
-                    label={skill.name}
-                    percentage={skill.level}
-                    delay={index * 0.1}
-                  />
-                ))}
-              </div>
-            </div>
+          {/* Right column - Highlight cards */}
+          <div className="grid grid-cols-2 gap-4">
+            {highlights.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <TiltCard className="h-full text-center">
+                  <item.icon className="w-8 h-8 mx-auto mb-3 text-primary" />
+                  <h3 className="font-semibold mb-1">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {item.description}
+                  </p>
+                </TiltCard>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

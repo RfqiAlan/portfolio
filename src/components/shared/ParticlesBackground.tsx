@@ -46,13 +46,13 @@ export function ParticlesBackground() {
     },
     particles: {
       color: {
-        value: ["#8b5cf6", "#ec4899", "#f97316", "#06b6d4"],
+        value: ["#6366f1", "#8b5cf6", "#a855f7", "#06b6d4"],
       },
       links: {
-        color: "#8b5cf6",
+        color: "#6366f1",
         distance: 150,
         enable: true,
-        opacity: 0.2,
+        opacity: 0.4,
         width: 1,
       },
       move: {
@@ -69,16 +69,16 @@ export function ParticlesBackground() {
         density: {
           enable: true,
         },
-        value: 50,
+        value: 60,
       },
       opacity: {
-        value: 0.3,
+        value: 0.5,
       },
       shape: {
         type: "circle",
       },
       size: {
-        value: { min: 1, max: 3 },
+        value: { min: 2, max: 4 },
       },
     },
     detectRetina: true,

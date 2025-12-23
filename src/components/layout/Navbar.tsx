@@ -1,22 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X } from "lucide-react";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { navItems } from "@/data/skills";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
-  const { theme, setTheme } = useTheme();
   const { direction, scrollY } = useScrollDirection();
-  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const isHidden = direction === "down" && scrollY > 100;
   const isScrolled = scrollY > 50;
@@ -29,71 +22,45 @@ export function Navbar() {
         transition={{ duration: 0.3 }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "glass py-3" : "bg-transparent py-5"
+          isScrolled ? "glass py-3" : "bg-transparent py-4"
         )}
       >
-        <nav className="container mx-auto px-4 flex items-center justify-between">
+        <nav className="container mx-auto px-4 max-w-4xl flex items-center justify-between">
           <motion.a
             href="#home"
-            className="text-2xl font-bold gradient-text"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="text-xl font-bold text-foreground"
+            whileHover={{ scale: 1.02 }}
           >
-            JD.
+            JD<span className="text-primary">.</span>
           </motion.a>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.li
-                key={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
+            {navItems.map((item) => (
+              <li key={item.href}>
                 <a
                   href={item.href}
-                  className="relative text-foreground/80 hover:text-foreground transition-colors group"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
                 </a>
-              </motion.li>
+              </li>
             ))}
           </ul>
 
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
-            {mounted && (
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </motion.button>
+          {/* Mobile Menu Button */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 md:hidden rounded-lg bg-secondary/50"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
             )}
-
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 md:hidden rounded-full bg-secondary"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </motion.button>
-          </div>
+          </motion.button>
         </nav>
       </motion.header>
 
@@ -101,33 +68,33 @@ export function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 md:hidden"
           >
             <div
-              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-background/90 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <motion.nav className="absolute right-0 top-0 h-full w-64 bg-card p-6 pt-20 shadow-xl">
-              <ul className="space-y-6">
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
+            <motion.nav
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25 }}
+              className="absolute right-0 top-0 h-full w-64 bg-card border-l border-border p-6 pt-20"
+            >
+              <ul className="space-y-4">
+                {navItems.map((item) => (
+                  <li key={item.href}>
                     <a
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-lg font-medium hover:text-primary transition-colors"
+                      className="block py-2 text-lg hover:text-primary transition-colors"
                     >
                       {item.label}
                     </a>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </motion.nav>
