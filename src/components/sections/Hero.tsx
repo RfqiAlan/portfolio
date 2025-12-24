@@ -1,8 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { personalInfo, socialLinks } from "@/data/skills";
+import { ScrollFadeItem } from "@/components/shared/ScrollFadeItem";
 
 const socialIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   github: Github,
@@ -11,24 +14,59 @@ const socialIcons: Record<string, React.ComponentType<{ className?: string }>> =
   instagram: Instagram,
 };
 
+function TypewriterText({ text, delay = 0, speed = 50 }: { text: string; delay?: number; speed?: number }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(startTimer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
+    
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < text.length) {
+        setDisplayedText(text.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [started, text, speed]);
+
+  return (
+    <span>
+      {displayedText}
+      {displayedText.length < text.length && started && (
+        <span className="animate-pulse">|</span>
+      )}
+    </span>
+  );
+}
+
 export function Hero() {
   return (
-    <section id="home" className="pt-28 pb-16 md:pt-32 md:pb-20">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+    <section id="home" className="pt-32 pb-20 md:pt-40 md:pb-28 min-h-[80vh] flex items-center">
+      <div className="container mx-auto px-4 max-w-5xl">
+        <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
           {/* Left - Photo & Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-center md:items-start gap-4"
-          >
+          <ScrollFadeItem className="flex flex-col items-center md:items-start gap-5">
             {/* Photo */}
-            <div className="relative w-32 h-32 md:w-40 md:h-40">
-              <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-pink-500/20 border border-border">
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-5xl">👨‍💻</span>
-                </div>
+            <div className="relative w-48 h-48 md:w-64 md:h-64 group">
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary via-pink-500 to-purple-500 rounded-3xl opacity-75 blur-sm group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-primary/30 shadow-xl shadow-primary/20">
+                <Image
+                  src="/images/profil.png"
+                  alt={personalInfo.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority
+                />
               </div>
             </div>
 
@@ -73,30 +111,35 @@ export function Hero() {
               <Mail className="w-4 h-4" />
               Schedule a call
             </motion.a>
-          </motion.div>
+          </ScrollFadeItem>
 
           {/* Right - Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex-1 text-center md:text-left"
-          >
-            {/* Name */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <ScrollFadeItem className="flex-1 text-center md:text-left">
+            {/* Name - Animated floating */}
+            <motion.h1 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
+              animate={{ 
+                y: [0, -8, 0],
+              }}
+              transition={{ 
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
               <span className="gradient-text">{personalInfo.name}</span>
-            </h1>
+            </motion.h1>
 
-            {/* Title */}
-            <p className="text-lg md:text-xl text-muted-foreground mb-6">
-              {personalInfo.title}
+            {/* Title - Typewriter effect */}
+            <p className="text-lg md:text-xl text-muted-foreground mb-6 min-h-[1.75rem]">
+              <TypewriterText text={personalInfo.title} delay={500} speed={80} />
             </p>
 
-            {/* Bio */}
-            <p className="text-muted-foreground leading-relaxed">
-              {personalInfo.bio}
+            {/* Bio - Typewriter effect */}
+            <p className="text-muted-foreground leading-relaxed min-h-[4rem]">
+              <TypewriterText text={personalInfo.bio} delay={1500} speed={30} />
             </p>
-          </motion.div>
+          </ScrollFadeItem>
         </div>
       </div>
     </section>

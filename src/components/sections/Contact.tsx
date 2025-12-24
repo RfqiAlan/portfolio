@@ -3,18 +3,13 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { personalInfo } from "@/data/skills";
+import { ScrollFadeItem } from "@/components/shared/ScrollFadeItem";
 
 export function Contact() {
   return (
     <section id="contact" className="py-16 md:py-24">
       <div className="container mx-auto px-4 max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
+        <ScrollFadeItem className="text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
             Let&apos;s Build Something Amazing
           </h2>
@@ -32,7 +27,7 @@ export function Contact() {
             <Mail className="w-5 h-5" />
             {personalInfo.email}
           </motion.a>
-        </motion.div>
+        </ScrollFadeItem>
       </div>
     </section>
   );

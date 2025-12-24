@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { ScrollFadeItem } from "@/components/shared/ScrollFadeItem";
 import { experiences } from "@/data/skills";
 
 export function Experience() {
@@ -12,16 +13,14 @@ export function Experience() {
   return (
     <section id="experience" className="py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        <SectionHeading title="Professional Journey" />
+        <ScrollFadeItem>
+          <SectionHeading title="Professional Journey" />
+        </ScrollFadeItem>
 
         <div className="space-y-4">
           {experiences.map((exp, index) => (
-            <motion.div
+            <ScrollFadeItem
               key={exp.company}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
               className="border border-border rounded-xl overflow-hidden bg-card/50"
             >
               {/* Header - Clickable */}
@@ -74,7 +73,7 @@ export function Experience() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </ScrollFadeItem>
           ))}
         </div>
       </div>

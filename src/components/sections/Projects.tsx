@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { ScrollFadeItem } from "@/components/shared/ScrollFadeItem";
 import { projects } from "@/data/projects";
 
 export function Projects() {
@@ -11,16 +12,14 @@ export function Projects() {
   return (
     <section id="projects" className="py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        <SectionHeading title="Featured Projects" />
+        <ScrollFadeItem>
+          <SectionHeading title="Featured Projects" />
+        </ScrollFadeItem>
 
         <div className="space-y-8">
-          {featuredProjects.map((project, index) => (
-            <motion.div
+          {featuredProjects.map((project) => (
+            <ScrollFadeItem
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
               className="group grid md:grid-cols-2 gap-6 p-4 -mx-4 rounded-2xl hover:bg-secondary/30 transition-colors"
             >
               {/* Image */}
@@ -90,7 +89,7 @@ export function Projects() {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </ScrollFadeItem>
           ))}
         </div>
       </div>

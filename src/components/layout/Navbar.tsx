@@ -1,11 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Clock } from "lucide-react";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { navItems } from "@/data/skills";
 import { cn } from "@/lib/utils";
+
+function LiveClock() {
+  const [time, setTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }));
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!time) return null;
+
+  return (
+    <div className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground font-mono">
+      <Clock className="w-3.5 h-3.5" />
+      <span>{time}</span>
+    </div>
+  );
+}
 
 export function Navbar() {
   const { direction, scrollY } = useScrollDirection();
@@ -47,6 +76,9 @@ export function Navbar() {
               </li>
             ))}
           </ul>
+
+          {/* Live Clock */}
+          <LiveClock />
 
           {/* Mobile Menu Button */}
           <motion.button

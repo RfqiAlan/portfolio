@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { ScrollFadeItem } from "@/components/shared/ScrollFadeItem";
 import { achievements } from "@/data/skills";
 
 interface Achievement {
@@ -23,21 +24,21 @@ export function Achievements() {
   return (
     <section className="py-12 md:py-16 relative">
       <div className="container mx-auto px-4 max-w-4xl">
-        <SectionHeading title="Achievements & Badges" />
+        <ScrollFadeItem>
+          <SectionHeading title="Achievements & Badges" />
+        </ScrollFadeItem>
 
         {/* Achievement Grid - 2 columns, big cards for certificate images */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {achievements.map((achievement, index) => (
-            <motion.div
+          {achievements.map((achievement) => (
+            <ScrollFadeItem
               key={achievement.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.01 }}
-              onClick={() => setSelectedAchievement(achievement)}
               className="group cursor-pointer"
             >
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                onClick={() => setSelectedAchievement(achievement)}
+              >
               {/* Certificate Image Card */}
               <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-border hover:border-primary/50 transition-all bg-gradient-to-br from-secondary/30 to-secondary/10">
                 {/* Placeholder - tampil jika gambar belum ada */}
@@ -67,7 +68,8 @@ export function Achievements() {
                   </span>
                 </div>
               </div>
-            </motion.div>
+              </motion.div>
+            </ScrollFadeItem>
           ))}
         </div>
 

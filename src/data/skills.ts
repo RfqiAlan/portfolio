@@ -131,11 +131,11 @@ export const navItems: NavItem[] = [
 ];
 
 export const personalInfo = {
-  name: "John Doe",
+  name: "Rifqi Alan Maulana",
   title: "Full Stack Developer",
   tagline: "I build exceptional digital experiences",
   bio: "I'm a passionate full-stack developer with 5+ years of experience creating beautiful, functional, and user-centered digital experiences. I specialize in React, Next.js, and Node.js, and I love turning complex problems into simple, elegant solutions.",
-  email: "hello@johndoe.dev",
-  location: "San Francisco, CA",
+  email: "maulanara24h@student.unhas.ac.id",
+  location: "Makassar, Indonesia",
   resumeUrl: "/resume.pdf",
 };
